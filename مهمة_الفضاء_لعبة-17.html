@@ -1,0 +1,500 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#070b24">
+<title>مهمة الفضاء 🚀</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:#040615;color:#fff;font-family:system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif}
+body{overflow-x:hidden}
+button{font:inherit;border:0;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-select:none}
+button:active{transform:scale(.97)}
+.app{min-height:100vh;background:radial-gradient(circle at 50% -10%,#273c91 0,#10183f 30%,#040615 72%)}
+header{position:sticky;top:0;z-index:20;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px 4%;background:#070a20ee;border-bottom:1px solid #303967;backdrop-filter:blur(12px)}
+.logo{font-weight:900;font-size:20px}.stats{display:flex;gap:7px}.pill{padding:7px 11px;border-radius:999px;background:#12193b;border:1px solid #374274;font-size:13px}
+main{width:min(1050px,100%);margin:auto;padding:18px 14px 42px}
+.card{background:linear-gradient(145deg,#10173beF,#090d25F2);border:1px solid #303b75;border-radius:24px;padding:20px;box-shadow:0 18px 55px #0007}
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:16px;align-items:stretch}
+.badge{display:inline-block;color:#dfe5ff;background:#1a2250;border:1px solid #43518e;border-radius:999px;padding:7px 11px;font-size:13px;font-weight:800}
+h1{font-size:clamp(36px,7vw,66px);line-height:.98;margin:14px 0}.lead{color:#c9d0f5;line-height:1.8;font-size:17px}
+.primary{width:100%;margin-top:10px;padding:15px 18px;border-radius:16px;background:linear-gradient(135deg,#8062ff,#4d8dff);color:#fff;font-weight:900;font-size:18px;box-shadow:0 12px 30px #5d70ff3d}
+.secondary{padding:11px 15px;border-radius:14px;background:#171e45;color:#fff;border:1px solid #45528d;font-weight:800}
+.space-art{min-height:320px;position:relative;overflow:hidden;border-radius:22px;background:radial-gradient(circle at 20% 15%,#fff 0 1px,transparent 2px),radial-gradient(circle at 75% 25%,#fff 0 1px,transparent 2px),radial-gradient(circle at 55% 80%,#fff 0 1px,transparent 2px),radial-gradient(circle at 90% 65%,#fff 0 1px,transparent 2px),linear-gradient(150deg,#070a24,#171d61)}
+.planet{position:absolute;width:145px;height:145px;left:50%;top:52%;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle at 35% 30%,#72d2ff,#2872d8 48%,#101f6b 100%);box-shadow:0 0 55px #39aaff88}
+.planet:before,.planet:after{content:"";position:absolute;background:#4cc58a;filter:drop-shadow(0 2px 1px #164f41)}
+.planet:before{width:55px;height:30px;left:27px;top:48px;border-radius:60% 30% 60% 30%;transform:rotate(-20deg)}
+.planet:after{width:48px;height:25px;right:22px;top:75px;border-radius:30% 60% 30% 60%;transform:rotate(12deg)}
+.moon{position:absolute;right:30px;top:26px;font-size:45px;animation:float 3s ease-in-out infinite}.sat{position:absolute;left:30px;bottom:25px;font-size:40px}
+@keyframes float{50%{transform:translateY(-10px)}}
+.section{margin-top:16px}.section h2{margin:0 0 12px}.levels{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.level{background:#11183b;border:1px solid #303b75;border-radius:20px;padding:16px}.level.locked{opacity:.5}.level-icon{font-size:35px}.level p{min-height:45px;color:#c4caf0;line-height:1.6}.level button{width:100%}
+.hidden{display:none!important}
+#game{display:none}.game-top{display:flex;gap:10px;align-items:center;margin-bottom:10px}.game-top .stage{flex:1}.stage-line{display:flex;justify-content:space-between;font-size:13px;color:#cbd2f5;margin-bottom:5px}.bar{height:10px;background:#202850;border-radius:99px;overflow:hidden}.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#61e8ff,#8a75ff);transition:width .15s}
+.arena{position:relative;width:100vw;margin-right:calc(50% - 50vw);margin-left:calc(50% - 50vw)}
+canvas{width:100%;height:auto;min-height:520px;display:block;border:1px solid #3a477f;border-radius:22px;background:#05081c;touch-action:none;box-shadow:0 15px 45px #0008}
+.overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#05081ccc;border-radius:22px;z-index:4}
+.overlay-box{width:min(430px,88%);text-align:center;padding:24px;border-radius:22px;background:#10173c;border:1px solid #45518a}.overlay-box h2{margin:5px 0 10px}.overlay-box p{color:#cbd2f5;line-height:1.7}
+.controls{display:flex;justify-content:center;gap:16px;margin:13px 0}.control{width:90px;height:58px;border-radius:18px;background:#171e45;border:1px solid #4a5791;color:white;font-size:26px;font-weight:900}
+.tip{color:#d7dcff;line-height:1.65}
+.quiz{margin-top:12px}.quiz h2{margin:0 0 8px}.answers{display:grid;grid-template-columns:1fr 1fr;gap:9px}.answer{padding:13px;border-radius:14px;text-align:right;background:#171e45;color:#fff;border:1px solid #46528c}.answer.correct{background:#126044;border-color:#39c796}.answer.wrong{background:#6a2944;border-color:#e26b94}
+.finish{text-align:center}.finish .emoji{font-size:60px}
+
+.result-overlay{position:fixed!important;inset:0!important;z-index:9999!important;border-radius:0!important;background:rgba(2,4,18,.94)!important;backdrop-filter:blur(8px);padding:22px}
+.result-box{width:min(560px,94vw);padding:30px 22px;border-radius:28px;background:linear-gradient(145deg,#111a46,#070b24);border:2px solid #4658a0;box-shadow:0 25px 90px #000c;text-align:center}
+.result-icon{font-size:76px;line-height:1;margin-bottom:10px}
+.result-box h2{font-size:clamp(34px,8vw,56px);margin:8px 0 12px}
+.result-box p{color:#d3d9ff;font-size:18px;line-height:1.8;margin:8px 0 18px}
+.result-score{font-size:25px;font-weight:900;margin:12px 0 20px}
+
+
+.planets-grid{grid-template-columns:repeat(4,1fr)}
+.planet-card{position:relative;overflow:hidden;min-height:190px;background:linear-gradient(145deg,#111a42,#080d29);border:1px solid #35437f;border-radius:22px;padding:16px}
+.planet-card.locked{opacity:.48;filter:saturate(.6)}
+.planet-card.done{border-color:#42c79a}
+.planet-orb{font-size:48px;line-height:1;margin-bottom:8px}
+.planet-card h3{margin:5px 0}
+.planet-card p{color:#c8cff3;line-height:1.55;font-size:13px;min-height:43px}
+.planet-card button{width:100%;padding:10px;border-radius:13px}
+.sublevel-card{background:#11183b;border:1px solid #39467f;border-radius:20px;padding:16px}
+.sublevel-card.locked{opacity:.48}
+.sublevel-card.done{border-color:#42c79a}
+.sublevel-card button{width:100%;margin-top:8px}
+
+.shop-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.shop-item{background:#11183b;border:1px solid #39477f;border-radius:18px;padding:15px}
+.shop-item .icon{font-size:36px}.shop-item h3{margin:8px 0}.shop-item p{color:#c9d0f5;line-height:1.55;min-height:48px}.shop-item button{width:100%;padding:12px;border-radius:13px;background:#6658e8;color:#fff;font-weight:900}.shop-item button:disabled{opacity:.45}
+.currency{display:inline-block;padding:8px 12px;border-radius:999px;background:#191f48;border:1px solid #46538e;font-weight:900}
+@media(max-width:760px){.shop-grid{grid-template-columns:1fr}}
+
+@media(max-width:760px){.planets-grid{grid-template-columns:1fr 1fr}.planet-card{min-height:175px}}
+@media(max-width:430px){.planets-grid{grid-template-columns:1fr}}
+
+@media(max-width:760px){.hero{grid-template-columns:1fr}.space-art{min-height:230px}.levels{grid-template-columns:1fr}.level p{min-height:auto}.answers{grid-template-columns:1fr}main{padding-top:12px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div class="logo">🚀 مهمة الفضاء</div>
+  <div class="stats"><span class="pill">⭐ <b id="score">0</b></span><span class="pill">🏆 <b id="best">0</b></span></div>
+</header>
+
+<main>
+<section id="home">
+  <div class="hero">
+    <div class="card">
+      <span class="badge">🌌 مشروع أسبوع الفضاء العالمي</span>
+      <h1>رحلة الكواكب 🚀</h1>
+      <p class="lead">رحلة تعليمية عبر كواكب المجموعة الشمسية. كل كوكب يحتوي على <b>3 مراحل</b>: تمهيدي، تحدّي، ومهمة متقدمة. ابدئي من عطارد وافتحي الطريق حتى نبتون، الزعيم الأخير.</p>
+      <button class="primary" id="startBtn" type="button">🚀 ابدئي الرحلة</button>
+    </div>
+    <div class="space-art">
+      <div class="moon">🌙</div><div class="planet"></div><div class="sat">🛰️</div>
+    </div>
+  </div>
+
+  <div class="section card" id="planetMap">
+    <h2>🪐 خريطة المجموعة الشمسية</h2>
+    <p class="lead">اختاري كوكبًا. داخل كل كوكب توجد 3 ليفلات. لا يمكنك القفز إلى كوكب متقدم قبل إكمال الذي قبله، لأن الكون، للأسف، يحب التدرّج.</p>
+    <div class="levels planets-grid" id="planetGrid"></div>
+  </div>
+
+  <div class="section card" id="shop">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+      <h2 style="margin:0">🛒 متجر تطوير الصاروخ</h2>
+      <span class="currency">⭐ النجوم: <b id="coins">0</b></span>
+    </div>
+    <p class="lead">اجمعي ⭐ أثناء اللعب واشتري تطويرات تساعدك في الليفلات الأصعب.</p>
+    <div class="shop-grid">
+      <div class="shop-item"><div class="icon">🛡️</div><h3>درع الصاروخ</h3><p>يزيد عدد الاصطدامات المسموحة.</p><button type="button" id="buyShield">⭐ 15</button></div>
+      <div class="shop-item"><div class="icon">⚡</div><h3>محرك سريع</h3><p>يزيد سرعة حركة الصاروخ.</p><button type="button" id="buyEngine">⭐ 20</button></div>
+      <div class="shop-item"><div class="icon">🧲</div><h3>جامع الطاقة</h3><p>يوسّع نطاق التقاط ⚡.</p><button type="button" id="buyMagnet">⭐ 25</button></div>
+    </div>
+  </div>
+
+  <div class="section card hidden" id="sublevelPanel">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+      <div>
+        <h2 id="selectedPlanetTitle">الكوكب</h2>
+        <p id="selectedPlanetFact" class="lead"></p>
+      </div>
+      <button class="secondary" id="closePlanetBtn" type="button">← الكواكب</button>
+    </div>
+    <div class="levels" id="sublevelGrid"></div>
+  </div>
+
+  <div class="section card">
+    <h2>📚 كيف تلعبين؟</h2>
+    <p class="lead">حرّكي الصاروخ يمينًا ويسارًا، اجمعي ⚡ حتى تكملي الهدف، وتجنبي ☄️. إذا اصطدمتِ بـ9 كويكبات تخسرين المهمة. كل مرحلة تعطيك معلومات عن الكوكب الذي تزورينه.</p>
+  </div>
+</section>
+
+<section id="game">
+  <div class="game-top">
+    <button class="secondary" id="backBtn" type="button">← القائمة</button>
+    <div class="stage">
+      <div class="stage-line"><span id="stageName">المستوى 1</span><span id="progressText">0 / 8</span></div>
+      <div class="bar"><i id="progress"></i></div>
+    </div>
+  </div>
+
+  <div class="arena">
+    <canvas id="canvas" width="1000" height="620"></canvas>
+    <div class="overlay" id="startOverlay">
+      <div class="overlay-box">
+        <div style="font-size:55px">🚀</div>
+        <h2>المهمة جاهزة!</h2>
+        <p>استخدمي أزرار اليمين واليسار لتحريك الصاروخ واجمعي ⚡ وتجنبي ☄️.</p>
+        <button class="primary" id="playBtn" type="button">ابدئي اللعب الآن</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="controls" dir="ltr">
+    <button class="control" id="leftBtn" type="button">⬅️</button>
+    <button class="control" id="rightBtn" type="button">➡️</button>
+  </div>
+
+  <div class="card tip" id="tip">🤖 المساعد الفضائي: اجمعي ⚡ وتجنبي ☄️. لديكِ 9 اصطدامات مسموحة.</div>
+  <div class="card" style="margin-top:12px">
+    <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap">
+      <b>❤️ محاولات الكويكبات: <span id="lives">9</span>/9</b>
+      <b>⚡ الطاقة: <span id="energyCount">0</span>/<span id="energyNeed">8</span></b>
+      <b>🎯 المستوى: <span id="difficulty">سهل</span></b>
+    </div>
+  </div>
+
+  <div class="quiz card hidden" id="quiz">
+    <h2>🧠 سؤال المهمة</h2>
+    <p id="question" class="lead"></p>
+    <div class="answers" id="answers"></div>
+  </div>
+
+  <div class="card finish hidden" id="finish">
+    <div class="emoji">🏆</div><h2 id="finishTitle">أنهيتِ مهمة الفضاء!</h2>
+    <p class="lead" id="finishText">أصبحتِ رائدة فضاء فخرية للمشروع.</p>
+    <div style="font-size:22px;font-weight:900;margin:12px 0">⭐ نقاطك: <span id="finalScore">0</span></div>
+    <button class="primary" id="finishBtn" type="button">العودة إلى القائمة</button>
+  </div>
+  <div class="overlay result-overlay hidden" id="resultOverlay">
+    <div class="result-box">
+      <div class="result-icon" id="resultIcon">💥</div>
+      <h2 id="resultTitle">لقد خسرتِ!</h2>
+      <p id="resultMessage">اصطدمتِ بالكويكبات.</p>
+      <div class="result-score">⭐ <span id="resultScore">0</span> نقطة</div>
+      <button class="primary" id="retryBtn" type="button">🔄 أعد المحاولة</button>
+      <button class="secondary" id="nextBtn" type="button" style="width:100%;margin-top:10px">🚀 المرحلة التالية</button>
+      <button class="secondary" id="resultHomeBtn" type="button" style="width:100%;margin-top:10px">🏠 القائمة الرئيسية</button>
+    </div>
+  </div>
+</section>
+</main>
+</div>
+
+<script>
+(function(){
+"use strict";
+const $=id=>document.getElementById(id);
+const canvas=$("canvas"),ctx=canvas.getContext("2d");
+
+const planets=[
+ {name:"عطارد",emoji:"☿️",icon:"🪨",fact:"أقرب كوكب إلى الشمس، وسطحه مليء بالفوهات.",color:"#9a9a9a"},
+ {name:"الزهرة",emoji:"♀️",icon:"🟠",fact:"كوكب شديد السخونة وله غلاف جوي كثيف.",color:"#d9a85b"},
+ {name:"الأرض",emoji:"🌍",icon:"🌍",fact:"كوكبنا الوحيد المعروف بوجود حياة عليه.",color:"#3e8ed0"},
+ {name:"المريخ",emoji:"♂️",icon:"🔴",fact:"يُعرف بالكوكب الأحمر بسبب أكاسيد الحديد على سطحه.",color:"#b9573c"},
+ {name:"المشتري",emoji:"♃",icon:"🟤",fact:"أكبر كواكب المجموعة الشمسية، وله بقعة حمراء ضخمة.",color:"#c79b72"},
+ {name:"زحل",emoji:"♄",icon:"🪐",fact:"يشتهر بحلقاته الواسعة المكوّنة من الجليد والصخور.",color:"#d9bd7b"},
+ {name:"أورانوس",emoji:"♅",icon:"🔵",fact:"عملاق جليدي يدور بمحور مائل جدًا.",color:"#79d4d8"},
+ {name:"نبتون",emoji:"♆",icon:"🔷",fact:"أبعد كواكب المجموعة الشمسية، ورياحه من الأسرع بين الكواكب.",color:"#4f75e8"}
+];
+
+const questions=[
+ [
+  {q:"ما الكوكب الأقرب إلى الشمس؟",a:["عطارد","الأرض","نبتون"],c:0},
+  {q:"هل عطارد يملك حلقات كبيرة؟",a:["لا","نعم","هو نجم"],c:0}
+ ],
+ [
+  {q:"أي كوكب يُعد من أشد الكواكب حرارة؟",a:["الزهرة","نبتون","المريخ"],c:0},
+  {q:"غلاف الزهرة الجوي كثيف جدًا، صح أم خطأ؟",a:["صح","خطأ","لا نعرف"],c:0}
+ ],
+ [
+  {q:"ما الكوكب الذي نعيش عليه؟",a:["الأرض","زحل","المشتري"],c:0},
+  {q:"ما القمر الطبيعي للأرض؟",a:["القمر","فوبوس","أوروبا"],c:0}
+ ],
+ [
+  {q:"ما لقب المريخ؟",a:["الكوكب الأحمر","الكوكب الأزرق","كوكب الحلقات"],c:0},
+  {q:"ما سبب اللون الأحمر للمريخ؟",a:["أكاسيد الحديد","الحلقات","الجليد الأزرق"],c:0}
+ ],
+ [
+  {q:"ما أكبر كواكب المجموعة الشمسية؟",a:["المشتري","الأرض","عطارد"],c:0},
+  {q:"هل المشتري كوكب غازي عملاق؟",a:["نعم","لا","هو قمر"],c:0}
+ ],
+ [
+  {q:"بماذا يشتهر زحل؟",a:["حلقاته","بحر سائل على سطحه","أنه أقرب للشمس"],c:0},
+  {q:"حلقات زحل تتكون أساسًا من جليد وصخور وغبار، صح؟",a:["صح","خطأ","هو نجم"],c:0}
+ ],
+ [
+  {q:"ما الذي يميز أورانوس؟",a:["ميل محوره الكبير","أنه أقرب للشمس","أنه أصغر قمر"],c:0},
+  {q:"أورانوس من العمالقة الجليدية، صح أم خطأ؟",a:["صح","خطأ","لا"],c:0}
+ ],
+ [
+  {q:"ما أبعد كواكب المجموعة الشمسية الثمانية عن الشمس؟",a:["نبتون","الأرض","الزهرة"],c:0},
+  {q:"نبتون معروف برياح شديدة السرعة، صح؟",a:["صح","خطأ","لا توجد رياح"],c:0}
+ ]
+];
+
+let progress=0, planetIndex=0, sublevel=0, stage=0;
+let coins=0, shieldLevel=0, engineLevel=0, magnetLevel=0, maxHits=5;
+let score=0,best=0,running=false,raf=0,got=0,need=8,hits=0;
+let player={x:500,y:555},items=[],stars=[],keys={left:false,right:false},buttonLock=false;
+
+try{progress=parseInt(localStorage.getItem("spaceProgress")||"0",10)||0}catch(e){progress=0}
+try{best=parseInt(localStorage.getItem("spaceBest")||"0",10)||0}catch(e){best=0}
+try{
+  coins=parseInt(localStorage.getItem("spaceCoins")||"0",10)||0;
+  shieldLevel=parseInt(localStorage.getItem("spaceShield")||"0",10)||0;
+  engineLevel=parseInt(localStorage.getItem("spaceEngine")||"0",10)||0;
+  magnetLevel=parseInt(localStorage.getItem("spaceMagnet")||"0",10)||0;
+}catch(e){}
+$("best").textContent=best;
+
+function save(){
+  if(score>best){best=score;try{localStorage.setItem("spaceBest",String(best))}catch(e){}}
+  $("score").textContent=score;
+  $("best").textContent=best;
+  try{localStorage.setItem("spaceProgress",String(progress))}catch(e){}
+  renderPlanets();
+  updateShop();
+}
+
+function stageIndex(pi,si){return pi*3+si}
+function stageDifficulty(si){return ["سهل","متوسط","صعب"][si]}
+function stageNeed(pi,si){return 8+si*2+Math.floor(pi/2)}
+function stageSpeed(pi,si){return 1.8+pi*.22+si*.75}
+function stageCount(pi,si){return 14+pi*2+si*8}
+
+function saveShop(){
+  try{
+    localStorage.setItem("spaceCoins",String(coins));
+    localStorage.setItem("spaceShield",String(shieldLevel));
+    localStorage.setItem("spaceEngine",String(engineLevel));
+    localStorage.setItem("spaceMagnet",String(magnetLevel));
+  }catch(e){}
+  updateShop();
+}
+function updateShop(){
+  $("coins").textContent=coins;
+  const b1=$("buyShield"),b2=$("buyEngine"),b3=$("buyMagnet");
+  const c1=15+shieldLevel*10,c2=20+engineLevel*10,c3=25+magnetLevel*10;
+  b1.textContent=shieldLevel>=3?"✅ مكتمل":"⭐ "+c1;
+  b2.textContent=engineLevel>=3?"✅ مكتمل":"⭐ "+c2;
+  b3.textContent=magnetLevel>=3?"✅ مكتمل":"⭐ "+c3;
+  b1.disabled=shieldLevel>=3||coins<c1;
+  b2.disabled=engineLevel>=3||coins<c2;
+  b3.disabled=magnetLevel>=3||coins<c3;
+}
+function buyUpgrade(type){
+  let cost=0;
+  if(type==="shield"){cost=15+shieldLevel*10;if(shieldLevel>=3||coins<cost)return;coins-=cost;shieldLevel++}
+  if(type==="engine"){cost=20+engineLevel*10;if(engineLevel>=3||coins<cost)return;coins-=cost;engineLevel++}
+  if(type==="magnet"){cost=25+magnetLevel*10;if(magnetLevel>=3||coins<cost)return;coins-=cost;magnetLevel++}
+  saveShop();
+}
+function renderPlanets(){
+  const grid=$("planetGrid");
+  grid.innerHTML="";
+  planets.forEach((p,i)=>{
+    const unlocked=i*3<=progress;
+    const completed=progress>=(i+1)*3;
+    const card=document.createElement("div");
+    card.className="level planet-card "+(!unlocked?"locked ":"")+(completed?"done":"");
+    card.innerHTML=`<div class="planet-orb">${p.icon}</div>
+      <h3>${i+1}. ${p.name}</h3>
+      <p>${p.fact}</p>
+      <button class="${unlocked?"primary":"secondary"}" type="button">${completed?"✅ مكتمل":unlocked?"اختيار الكوكب":"🔒 مقفول"}</button>`;
+    card.querySelector("button").addEventListener("click",()=>{
+      if(unlocked)showSublevels(i);
+    });
+    grid.appendChild(card);
+  });
+}
+
+function showSublevels(pi){
+  planetIndex=pi;
+  const p=planets[pi];
+  $("selectedPlanetTitle").textContent=`${p.icon} ${p.name}`;
+  $("selectedPlanetFact").textContent=p.fact;
+  const grid=$("sublevelGrid");
+  grid.innerHTML="";
+  for(let si=0;si<3;si++){
+    const idx=stageIndex(pi,si);
+    const unlocked=idx<=progress;
+    const completed=idx<progress;
+    const card=document.createElement("div");
+    card.className="sublevel-card "+(!unlocked?"locked ":"")+(completed?"done":"");
+    const labels=["🛰️ المرحلة التمهيدية","☄️ مرحلة التحدي","👑 المهمة المتقدمة"];
+    const desc=[
+      "تعلمي أساسيات الكوكب واجمعي الطاقة.",
+      "سرعة أعلى وكويكبات أكثر.",
+      "أصعب مهمة داخل الكوكب قبل الانتقال للكوكب التالي."
+    ];
+    card.innerHTML=`<div style="font-size:34px">${si===0?"🛰️":si===1?"☄️":"👑"}</div>
+      <h3>${labels[si]}</h3><p style="color:#c8cff3;line-height:1.6">${desc[si]}</p>
+      <p><b>${stageDifficulty(si)}</b> · ⚡ ${stageNeed(pi,si)} طاقة · ❤️ 9 اصطدامات</p>
+      <button class="${unlocked?"primary":"secondary"}" type="button">${completed?"✅ مكتمل":unlocked?"ابدئي هذا الليفل":"🔒 مقفول"}</button>`;
+    card.querySelector("button").addEventListener("click",()=>{
+      if(unlocked)startStage(pi,si);
+    });
+    grid.appendChild(card);
+  }
+  $("sublevelPanel").classList.remove("hidden");
+  $("sublevelPanel").scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function hideSublevels(){$("sublevelPanel").classList.add("hidden")}
+
+function startStage(pi,si){
+  planetIndex=pi;sublevel=si;stage=stageIndex(pi,si);
+  need=stageNeed(pi,si);got=0;hits=0;score=0;
+  maxHits=5+(si*5)+(shieldLevel*2);
+  player.x=500;items=[];
+  $("home").classList.add("hidden");$("game").style.display="block";
+  $("quiz").classList.add("hidden");$("finish").classList.add("hidden");$("resultOverlay").classList.add("hidden");
+  $("startOverlay").classList.remove("hidden");
+  $("stageName").textContent=`${planets[pi].icon} ${planets[pi].name} · ${stageDifficulty(si)}`;
+  $("progressText").textContent=`0 / ${need}`;$("progress").style.width="0%";
+  $("lives").textContent=String(maxHits);$("energyCount").textContent="0";$("energyNeed").textContent=need;
+  $("difficulty").textContent=stageDifficulty(si);
+  $("tip").textContent=`🤖 المساعد الفضائي: ${planets[pi].fact}`;
+  makeStars();spawn();draw();save();
+}
+
+function beginPlay(){
+  $("startOverlay").classList.add("hidden");running=true;cancelAnimationFrame(raf);raf=requestAnimationFrame(loop);
+}
+function goHome(){
+  running=false;cancelAnimationFrame(raf);$("game").style.display="none";$("home").classList.remove("hidden");
+  $("quiz").classList.add("hidden");$("finish").classList.add("hidden");$("resultOverlay").classList.add("hidden");
+  renderPlanets();
+}
+
+function makeStars(){
+  stars=[];for(let i=0;i<110;i++)stars.push({x:Math.random()*1000,y:Math.random()*620,s:Math.random()*2+1,v:Math.random()*.5+.2});
+}
+function spawn(){items=[];refillItems(true)}
+function refillItems(initial){
+  const wanted=stageCount(planetIndex,sublevel);
+  const live=items.filter(o=>o.y<700).length;
+  for(let i=live;i<wanted;i++){
+    items.push({
+      x:35+Math.random()*930,
+      y:initial?-40-Math.random()*(1700+planetIndex*300):-50-Math.random()*420,
+      type:Math.random()<Math.max(.48,.75-planetIndex*.025-sublevel*.05)?"energy":"rock",
+      speed:stageSpeed(planetIndex,sublevel)+Math.random()*(1.1+sublevel*.35),
+      size:sublevel===0?27:sublevel===1?30:34
+    });
+  }
+}
+
+function draw(){
+  const g=ctx.createLinearGradient(0,0,0,620);g.addColorStop(0,"#03051a");g.addColorStop(1,"#111b4b");
+  ctx.fillStyle=g;ctx.fillRect(0,0,1000,620);
+  ctx.fillStyle="#dfe7ff";
+  const now=performance.now();
+  stars.forEach(s=>{let y=(s.y+(now/35)*s.v)%620;ctx.globalAlpha=.35+s.s*.2;ctx.fillRect(s.x,y,s.s,s.s)});
+  ctx.globalAlpha=1;ctx.textAlign="center";
+  ctx.font="40px sans-serif";ctx.fillText("🚀",player.x,player.y);
+  items.forEach(o=>{ctx.font=o.size+"px sans-serif";ctx.fillText(o.type==="energy"?"⚡":"☄️",o.x,o.y)});
+}
+function hit(a,b){return Math.abs(a.x-b.x)<34&&Math.abs(a.y-b.y)<38}
+
+function loop(){
+  if(!running)return;
+  const moveSpeed=7+engineLevel*1.5;
+  if(keys.left)player.x-=moveSpeed;if(keys.right)player.x+=moveSpeed;
+  player.x=Math.max(30,Math.min(970,player.x));
+  items.forEach(o=>o.y+=o.speed);
+  if(got<need)refillItems(false);
+  for(const o of items){
+    if(o.y>660)continue;
+    if((o.type==="energy" && Math.abs(player.x-o.x)<34+magnetLevel*12 && Math.abs(player.y-o.y)<38+magnetLevel*12) || (o.type==="rock" && hit(player,o))){
+      o.y=700;
+      if(o.type==="energy"){
+        got++;score++;coins++;
+        saveShop();
+        $("tip").textContent=["⚡ طاقة إضافية!","🚀 ممتاز! استمري!","🤖 معلومة: "+planets[planetIndex].fact][got%3];
+      }else{
+        hits++;$("lives").textContent=String(Math.max(0,maxHits-hits));score=Math.max(0,score-1);
+        $("tip").textContent=`🤖 اصطدام! بقي لكِ ${Math.max(0,maxHits-hits)} من ${maxHits} اصطدامات مسموحة.`;
+        if(hits>=maxHits){loseGame();return}
+      }
+      save();
+    }
+  }
+  items=items.filter(o=>o.y<690);
+  $("progressText").textContent=`${got} / ${need}`;$("progress").style.width=Math.min(100,got/need*100)+"%";$("energyCount").textContent=got;
+  draw();
+  if(got>=need){running=false;cancelAnimationFrame(raf);completeStage();return}
+  raf=requestAnimationFrame(loop);
+}
+
+function completeStage(){
+  if(stage===progress)progress=Math.min(24,progress+1);
+  save();$("tip").textContent=`🏆 ${planets[planetIndex].name}: الليفل مكتمل!`;
+  showResult("win");
+}
+
+function loseGame(){
+  running=false;cancelAnimationFrame(raf);$("quiz").classList.add("hidden");
+  $("tip").textContent="🤖 توقفت المهمة. يمكنك إعادة المحاولة.";
+  showResult("lose");
+}
+
+function showResult(type){
+  $("resultOverlay").classList.remove("hidden");$("resultScore").textContent=String(score);
+  const next=$("nextBtn");
+  if(type==="lose"){
+    $("resultIcon").textContent="💥";$("resultTitle").textContent="فشل المهمة... لقد خسرتِ!";
+    $("resultMessage").textContent=`وصلتِ إلى حد الاصطدامات المسموح به (${maxHits}) في ${planets[planetIndex].name}. أعدي المحاولة وحاولي الوصول إلى ${need}/${need}.`;
+    $("retryBtn").classList.remove("hidden");next.classList.add("hidden");
+  }else{
+    $("resultIcon").textContent=stage===23?"🌌":"🏆";
+    $("resultTitle").textContent=stage===23?"👑 أنهيتِ آخر ليفل: نبتون!":"المستوى مكتمل!";
+    $("resultMessage").textContent=stage===23?"أنهيتِ رحلة الكواكب الثمانية كاملة. نبتون كان الزعيم الأخير!":`أكملتِ ${planets[planetIndex].name} · ${stageDifficulty(sublevel)}.`;
+    $("retryBtn").classList.add("hidden");next.classList.toggle("hidden",stage>=23);
+  }
+}
+function hideResult(){$("resultOverlay").classList.add("hidden")}
+function retryStage(){hideResult();startStage(planetIndex,sublevel);beginPlay()}
+function nextStage(){
+  hideResult();
+  if(stage>=23){goHome();return}
+  const next=stage+1;startStage(Math.floor(next/3),next%3);beginPlay();
+}
+
+function safeAction(fn){if(buttonLock)return;buttonLock=true;try{fn()}finally{setTimeout(()=>buttonLock=false,180)}}
+function bindPointer(id,fn){$(id).addEventListener("pointerup",e=>{e.preventDefault();safeAction(fn)})}
+
+bindPointer("startBtn",()=>{$("planetMap").scrollIntoView({behavior:"smooth",block:"start"})});
+bindPointer("playBtn",beginPlay);bindPointer("backBtn",goHome);bindPointer("finishBtn",goHome);
+bindPointer("buyShield",()=>buyUpgrade("shield"));
+bindPointer("buyEngine",()=>buyUpgrade("engine"));
+bindPointer("buyMagnet",()=>buyUpgrade("magnet"));
+updateShop();
+bindPointer("retryBtn",retryStage);bindPointer("nextBtn",nextStage);bindPointer("resultHomeBtn",goHome);bindPointer("closePlanetBtn",hideSublevels);
+
+function hold(id,key){
+  const b=$(id),down=e=>{e.preventDefault();keys[key]=true},up=e=>{e.preventDefault();keys[key]=false};
+  b.addEventListener("pointerdown",down);["pointerup","pointercancel","pointerleave"].forEach(ev=>b.addEventListener(ev,up));
+}
+hold("leftBtn","left");hold("rightBtn","right");
+window.addEventListener("keydown",e=>{if(e.key==="ArrowLeft"||e.key.toLowerCase()==="a")keys.left=true;if(e.key==="ArrowRight"||e.key.toLowerCase()==="d")keys.right=true});
+window.addEventListener("keyup",e=>{if(e.key==="ArrowLeft"||e.key.toLowerCase()==="a")keys.left=false;if(e.key==="ArrowRight"||e.key.toLowerCase()==="d")keys.right=false});
+window.addEventListener("blur",()=>{keys.left=false;keys.right=false});
+
+renderPlanets();makeStars();draw();
+})();
+</script>
+</body>
+</html>
